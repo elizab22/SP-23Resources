@@ -10,8 +10,14 @@ def scrape_inner(r_ins) :
         for d in s.find_all('div', class_ = None):
             p = d.find('p').text
             if p not in dont_want:
-                 info = d.find('div', class_ = "info_div").text.strip()
-                 
+                 if p == ' Earth–Kind® Index:':
+                    for li in d.find_all('li'):
+                        data.append(li.text.split(":")[1].strip())
+                 else:   
+                    info = d.find('div', class_ = "info_div").text.strip()
+                    data.append(info)
+                
+    return data
 
         
 
@@ -24,40 +30,36 @@ all_links = ['http://ekps.tamu.edu/allplantsforregion?per_page=10000&region=zone
              'http://ekps.tamu.edu/allplantsforregion?per_page=10000&region=zone_g',
              'http://ekps.tamu.edu/allplantsforregion?per_page=10000&region=zone_h']
 
-r = requests.get('http://ekps.tamu.edu/details?id=189&region=zone_a')
-
-scrape_inner(r)
-
 counter = 0
-# for link in all_links:
+for link in all_links:
         
-#     r = requests.get(link)
+    r = requests.get(link)
 
-#     soup = BeautifulSoup(r.content, 'html.parser')
+    soup = BeautifulSoup(r.content, 'html.parser')
 
-#     with open('plants.csv', 'a', encoding = 'utf8', newline = '') as f:
-#         my_writer = writer(f)
-        # header = ['Name', 'Region','Scientific Name', 'Sun Exposure', 'Rating', 'Description', 'Habit or Use', 'Color', 'Blooming Period', 'Fruit Characteristics', 'Height', 'Width', 'Heat Tolerance', 'Water Requirements', 'Soil Requirements', 'Pest Tolerance', 'Fertility Requirements', 'Firewise Index', 'Additional Comments']
-#         my_writer.writerow(header)
-#         for s in soup.find_all('div', class_= 'container_1'):
-#             ins_link = s.find('div', class_ = 'col_2').find('a', href = True)
+    with open('plants.csv', 'a', encoding = 'utf8', newline = '') as f:
+        my_writer = writer(f)
+        header = ['Name', 'Region','Scientific Name', 'Sun Exposure', 'Rating', 'Description', 'Habit or Use', 'Color', 'Blooming Period', 'Fruit Characteristics', 'Height', 'Width', 'Heat Tolerance', 'Water Requirements', 'Soil Requirements', 'Pest Tolerance', 'Fertility Requirements', 'Firewise Index', 'Additional Comments']
+        my_writer.writerow(header)
+        for s in soup.find_all('div', class_= 'container_1'):
+            ins_link = s.find('div', class_ = 'col_2').find('a', href = True)
             
             
-#             if ins_link is not None:
-#                 name = s.find('div', class_ = 'col_2').text.strip()
-#                 scientific_name = s.find('div', class_ = 'col_3').text.strip()
-#                 sun_expos = s.find('div', class_ = 'col_4').text.strip()
-#                 rating = s.find('div', class_ = 'col_5').text.strip()
+            if ins_link is not None:
+                name = s.find('div', class_ = 'col_2').text.strip()
+                scientific_name = s.find('div', class_ = 'col_3').text.strip()
+                sun_expos = s.find('div', class_ = 'col_4').text.strip()
+                rating = s.find('div', class_ = 'col_5').text.strip()
                 
-#                 #open hyperlink for more information about plant and scrape info there
-#                 r_ins = requests.get('http://ekps.tamu.edu/' + ins_link['href'])
+                #open hyperlink for more information about plant and scrape info there
+                r_ins = requests.get('http://ekps.tamu.edu/' + ins_link['href'])
+                
+                data = scrape_inner(r_ins)
+
                 
                 
-                
-                
-#                 row = [name, counter, scientific_name, sun_expos, rating]
-#                 my_writer.writerow(row)
-#     counter += 1
-    # print(r)
-    # print(r.content)
+                row = [name, counter, scientific_name, sun_expos, rating]
+                my_writer.writerow(row + data)
+    counter += 1
+
     
