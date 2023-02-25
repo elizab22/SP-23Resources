@@ -8,6 +8,7 @@ def scrape_inner(r_ins) :
     for s in soup_ins.find_all('div', id = 'details_left'):
         for d in s.find_all('div', class_ = None):
             
+            
         
 
 all_links = ['http://ekps.tamu.edu/allplantsforregion?per_page=10000&region=zone_a', 
