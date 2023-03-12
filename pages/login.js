@@ -3,7 +3,11 @@ import { Text, TextInput, StyleSheet, Image, View, TouchableOpacity } from 'reac
 export default function Login () {
   return (
     <View style={styles.container}>
-      <Text>PLANIT GREEN</Text>
+      <Text>PLANIT</Text>
+      <Image 
+        style={styles.image}
+        source={require('./logo.png')}
+      />
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -25,6 +29,7 @@ export default function Login () {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 50,
     alignItems: 'center',
     backgroundColor: 'fff',
   },
@@ -38,7 +43,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
 
+  image: {
+
+  },
+
   button: {
     width: '80%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 5,
+    borderWidth: 1,
+    height: 40,
+    backgroundColor: '#BED0BC',
   },
 })
