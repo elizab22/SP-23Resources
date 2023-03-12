@@ -1,6 +1,16 @@
 import { Text, TextInput, StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
 
 export default function Login () {
+  let [fontsLoaded] = useFonts({
+    'Orbitron': require('./assets/fonts/Orbitron-Regular.ttf'),
+  })
+
+  if (!fontsLoaded) {
+    return <AppLoading/>
+  }
+
   return (
     <View style={styles.container}>
       <Text>PLANIT</Text>
@@ -29,9 +39,14 @@ export default function Login () {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 50,
+    marginTop: 100,
     alignItems: 'center',
     backgroundColor: 'fff',
+  },
+
+  title: {
+    fontFamily: 'Orbitron',
+    fontSize: 50,
   },
 
   input: {
