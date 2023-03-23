@@ -1,23 +1,35 @@
-import { Text, TextInput, StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+import { Text, TextInput, StyleSheet, Image, SafeAreaView, View, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import Title from './title';
 
-export default function Login () {
+const horizontal = Dimensions.get('window').width;
+const vertical = Dimensions.get('window').height;
+
+export default function Login ({navigation}) { 
   return (
     <View style={styles.container}>
-      <Text>PLANIT GREEN</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-      />
-      <TouchableOpacity style={styles.button}>
-        <Text>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Text>New? Register</Text>
-      </TouchableOpacity>
+      <ImageBackground 
+        style={styles.background}
+        source={require('./loginBackground.png')}>
+        <Title/>
+        <Image 
+          style={styles.image}
+          source={require('./logo.png')}
+        />
+        <TextInput
+          style={styles.input}
+          backgroundColor="#BED0BC"
+          placeholder="Username"
+          placeholderTextColor="#000"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#000"
+        />
+        <TouchableOpacity onPress={() => navigation.navigate('FirstPrompt')}>
+          <Text style={{marginTop: 20}}>New? Register</Text>
+        </TouchableOpacity>
+      </ImageBackground>
     </View>
   )
 }
@@ -25,20 +37,26 @@ export default function Login () {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'fff',
   },
 
+  background: {
+    width: horizontal,
+    height: vertical,
+    resizeMode: 'contain',
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  
   input: {
-    width: '80%',
+    width: 247,
     borderWidth: 1,
-    height: 40,
+    height: 41,
     marginVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-
-  button: {
-    width: '80%',
+    borderRadius: 8,
+    
   },
 })
