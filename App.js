@@ -3,21 +3,25 @@ import { StyleSheet, Text, View } from 'react-native';
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Login from './pages/login';
+import Login from './pages/authentication/login';
 import Landing from './pages/landing';
-import Garden from './pages/garden';
-import NumPlants from './pages/num-plants';
+import Garden from './pages/garden/garden';
+import NumPlants from './pages/authentication/num-plants';
 import Recommender from './pages/recommender';
 import Search from './pages/search';
-import FirstPrompt from './pages/question-one';
-import Location from './pages/location';
+import FirstPrompt from './pages/authentication/question-one';
+import Location from './pages/garden/location';
 import Plants from './pages/plants';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import Register from './pages/authentication/register';
+import Dashboard from './pages/dashboard';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  EStyleSheet.build({})
   return (
-    <NavigationContainer>
+<NavigationContainer>
       <Stack.Navigator
        screenOptions={{
         headerShown: false,
@@ -58,6 +62,14 @@ export default function App() {
         <Stack.Screen
           name="Recommender"
           component={Recommender}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+        />
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
         />
       </Stack.Navigator>
     </NavigationContainer>

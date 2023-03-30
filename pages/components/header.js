@@ -1,6 +1,7 @@
 import { Image, ImageBackground, View, StyleSheet, TouchableOpacity } from 'react-native';
 import {Dimensions} from 'react-native';
-import Title from './title';
+import Title from '../title';
+// import MenuNavigator from '../MenuNavigator';
 
 const horizontal = Dimensions.get('window').width;
 
@@ -9,11 +10,11 @@ const Header = ({navigation}) => {
     <View style={styles.container}>
       <ImageBackground
         style={styles.head}
-        source={require('./head.png')}>
-        <TouchableOpacity>
+        source={require('../assets/head.png')}>
+        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <Image
             style={styles.menu}
-            source={require('./menu-icon.png')}/>   
+            source={require('../assets/menu-icon.png')}/>   
         </TouchableOpacity> 
         <TouchableOpacity> 
           <Title/>
@@ -21,7 +22,7 @@ const Header = ({navigation}) => {
         <TouchableOpacity>
           <Image
             style={styles.profile}
-            source={require('./profile-icon.png')}/> 
+            source={require('../assets/profile-icon.png')}/> 
         </TouchableOpacity> 
       </ImageBackground>
     </View>

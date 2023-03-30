@@ -1,26 +1,29 @@
 import { View, StyleSheet, Text , Image, TouchableOpacity } from 'react-native';
-import Header from './header';
-import Back from './back';
+import Header from '../components/header';
+import Back from '../back';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
-export default function NumPlants() {
+
+export default function NumPlants({navigation}) {
   return (
     <View style={styles.container}>
       <Header/>
-      <Back/>
+      <Back navigation={navigation}/>
       <Text style={styles.question}>How many plants do you</Text>
       <Text style={styles.question}>already have?</Text>
       <Image 
-        source={require('./mother-earth.png')}
+        source={require('../assets/mother-earth.png')}
         style={styles.image}
       />
     </View>
   )
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
+    justifyContent: "flex-start"
   },
  
   question: {

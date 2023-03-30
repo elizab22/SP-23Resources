@@ -25,11 +25,8 @@ const register = async (email, password) => {
             console.log(user.email)
         }).catch(error => {
             // alert user appropriately if there are errors
-            if (error.code === "auth/email-already-in-use") {
-                alert("An account with this email already exists")
-            } else {
-                alert("Make sure both fields are filled out correclty")
-            }
+            let errorStr = error.code.split("/")[1].replaceAll("-", " ")
+            alert("Error: " + errorStr)
         })
 }
 
@@ -38,13 +35,14 @@ const register = async (email, password) => {
  * @param {String} email 
  * @param {String} password 
  */
-const login = async (email, password) => {
+const login = async (email, password, onLogin) => {
     // logs in user using email and password
     await signInWithEmailAndPassword(auth, email, password)
     .then(userCredentials => {
         user = userCredentials.user;
         userRef = doc(firestore, "users", user.uid);
         console.log(user.email)
+        onLogin()
     }).catch(error => {
         // if there is an error alert the user
         alert("Incorrect email or password")

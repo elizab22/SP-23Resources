@@ -1,14 +1,20 @@
 import { SafeAreaView, View, Image, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import Title from './title';
-
+import { authEventListener } from '../src/authentication';
+import { useEffect } from 'react';
 const background = {uri: './plantbackground.png'}
 
 export default function Landing ({navigation}) {
+
+  useEffect(() => {
+    const listener = authEventListener(() => navigation.navigate("Dashboard"));
+    return listener;
+  }, []);
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require('./plantbackground.png')}
+        source={require('./assets/plantbackground.png')}
         resizeMode="cover"
        >
        <Title/>
@@ -18,7 +24,7 @@ export default function Landing ({navigation}) {
       onPress={() => navigation.navigate('Login')}>
         <Text style={styles.startText}>Get Started</Text>
         <Image 
-          source={require('./next.png') }
+          source={require('./assets/next.png') }
           style={styles.startImage}/>
       </TouchableOpacity>
        </ImageBackground>

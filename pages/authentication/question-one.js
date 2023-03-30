@@ -1,15 +1,19 @@
 import { View, TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
-import Header from './header';
+import Back from '../back';
+import Header from '../components/header';
+import EStyleSheet from 'react-native-extended-stylesheet';
+
 
 export default function FirstPrompt({navigation}) {
   return (
     <View style={styles.outerShell}>
       <Header/>
+      <Back navigation={navigation}/>
       <View style={styles.container}>
         <Text style={styles.topText}>Have you already started</Text>
         <Text style={styles.topText}>your garden?</Text>
         <Image
-          source={require('./people.png')}
+          source={require('../assets/people.png')}
           style={styles.image}
         />
         <TouchableOpacity 
@@ -19,7 +23,7 @@ export default function FirstPrompt({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.buttonTwo} 
-          onPress={() => navigation.navigate("Location")}>
+          onPress={() => navigation.navigate("Register")}>
           <Text style={styles.buttonTwoText}>No</Text>
         </TouchableOpacity>
       </View>
@@ -27,17 +31,15 @@ export default function FirstPrompt({navigation}) {
   )
 }
 
-const styles=StyleSheet.create({
+const styles = EStyleSheet.create({
   outerShell: {
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
 
   container: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFFFFF',
+    justifyContent: "flex-start"
   },
 
   topText: {
@@ -48,27 +50,27 @@ const styles=StyleSheet.create({
 
   image: {
     margin: 30,
-    width: 348,
-    height: 273
+    width: 300,
+    height: 200,
   },
 
   buttonOne: {
     borderRadius: 25,
     borderWidth: 1,
-    width: 368,
-    height: 97,
-    margin: 20,
+    width: '80%',
+    height: '4rem',
+    marginBottom: '2rem',
+    marginTop: '2rem',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#366652", 
+    backgroundColor: "#AFC6B8", 
   },
 
   buttonTwo: {
     borderRadius: 25,
     borderWidth: 1,
-    width: 368,
-    height: 97,
-    marginTop: 16,
+    width: '80%',
+    height: '4rem',
     justifyContent: 'center',
     alignItems: 'center',
   },
