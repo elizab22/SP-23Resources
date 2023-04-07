@@ -1,14 +1,18 @@
-import { StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
 
-const Back = ({navigation}) => {
-  return <TouchableOpacity style={styles.container}>
-            <Image source={require('./left.png')}
-            />
-            <Text style={styles.text}>  Back</Text>
-         </TouchableOpacity>;
+const Back = () => {
+  const navigation = useNavigation();
+
+  return (
+    <TouchableOpacity style={styles.container} onPress={() => navigation.goBack()}>
+      <Image source={require('./left.png')} />
+      <Text style={styles.text}>Back</Text>
+    </TouchableOpacity>
+  );
 }
 
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -17,7 +21,8 @@ const styles=StyleSheet.create({
   },
 
   text: {
-    fontSize: 17,
+    fontSize: 16,
+    marginLeft: 6,
   },
 });
 
