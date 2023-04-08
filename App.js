@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './pages/login';
 import Landing from './pages/landing';
 import Garden from './pages/garden';
-import NumPlants from './pages/num-plants';
 import Recommender from './pages/recommender';
 import Search from './pages/search';
 import FirstPrompt from './pages/question-one';
@@ -38,10 +37,6 @@ export default function App() {
         <Stack.Screen
           name="Location"
           component={Location}
-        />
-        <Stack.Screen
-          name="NumPlants"
-          component={NumPlants}
         />
         <Stack.Screen
           name="Search"
