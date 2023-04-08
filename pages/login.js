@@ -1,4 +1,4 @@
-import { Text, TextInput, StyleSheet, Image, SafeAreaView, View, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
+import { Text, TextInput, StyleSheet, Image, SafeAreaView, View, TouchableOpacity, ImageBackground, Dimensions, KeyboardAvoidingView } from 'react-native';
 import Title from './title';
 
 export default function Login ({navigation}) { 
@@ -7,7 +7,7 @@ export default function Login ({navigation}) {
         <Title/>
         <Image 
           style={styles.image}
-          source={require('./ellipse.png')}
+          source={require('../assets/images/ellipse.png')}
         />
         <TextInput
           style={styles.input}
