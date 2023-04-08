@@ -1,14 +1,12 @@
 import { SafeAreaView, View, Image, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import Title from './title';
 
-const background = {uri: './plantbackground.png'}
-
 export default function Landing ({navigation}) {
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require('./plantbackground.png')}
+        source={require('../assets/images/plantbackground.png')}
         resizeMode="cover"
        >
        <Title/>
@@ -18,7 +16,7 @@ export default function Landing ({navigation}) {
       onPress={() => navigation.navigate('Login')}>
         <Text style={styles.startText}>Get Started</Text>
         <Image 
-          source={require('./next.png') }
+          source={require('../assets/images/next.png') }
           style={styles.startImage}/>
       </TouchableOpacity>
        </ImageBackground>

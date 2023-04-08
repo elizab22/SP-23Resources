@@ -1,19 +1,19 @@
 import { Image, ImageBackground, View, StyleSheet, TouchableOpacity } from 'react-native';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import Title from './title';
 
 const horizontal = Dimensions.get('window').width;
 
-const Header = ({navigation}) => {
+export default function Header ({navigation}) {
   return (
     <View style={styles.container}>
       <ImageBackground
         style={styles.head}
-        source={require('./head.png')}>
+        source={require('../assets/images/head.png')}>
         <TouchableOpacity>
           <Image
             style={styles.menu}
-            source={require('./menu-icon.png')}/>   
+            source={require('../assets/images/menu-icon.png')}/>   
         </TouchableOpacity> 
         <TouchableOpacity> 
           <Title/>
@@ -21,7 +21,7 @@ const Header = ({navigation}) => {
         <TouchableOpacity>
           <Image
             style={styles.profile}
-            source={require('./profile-icon.png')}/> 
+            source={require('../assets/images/profile-icon.png')}/> 
         </TouchableOpacity> 
       </ImageBackground>
     </View>
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     height: 53,
 
   },
-
   head: {
     height: 80,
     width: horizontal,
@@ -54,5 +53,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   }
 })
-
-export default Header;
