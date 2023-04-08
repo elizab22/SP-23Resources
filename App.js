@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './pages/login';
 import Landing from './pages/landing';
@@ -19,10 +19,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-       screenOptions={{
-        headerShown: false,
-        cardStyle: { backgroundColor: '#FFFFFF' }
-    }}>
+        screenOptions={{
+          headerShown: false,
+          cardStyle: { backgroundColor: '#FFFFFF' }
+        }}>
         <Stack.Screen
           name="Landing"
           component={Landing}

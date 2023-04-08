@@ -2,7 +2,7 @@ import { View, StyleSheet, Text , Image, TouchableOpacity } from 'react-native';
 import Header from './header';
 import Back from './back';
 
-export default function NumPlants() {
+export default function NumPlants({navigation}) {
   return (
     <View style={styles.container}>
       <Header/>
