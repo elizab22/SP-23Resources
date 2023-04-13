@@ -12,15 +12,12 @@ import Plants from './Frontend/pages/plants';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import Register from './Frontend/pages/authentication/register';
 import Dashboard from './Frontend/pages/dashboard';
-import { useEffect } from './src/api-calls'
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  useEffect(() => {
-    init();
-  }, [])
-  
+
   EStyleSheet.build({})
   return (
 <NavigationContainer>

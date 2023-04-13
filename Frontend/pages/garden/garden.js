@@ -20,7 +20,7 @@ import { Dimensions } from "react-native";
 import { savePlantsToGarden } from "../../src/database";
 import { getGarden } from "../../src/database";
 
-export default function Garden(props) {
+export default function Garden(props, navigation) {
     const [width, setWidth] = useState(300);
     const [height, setHeight] = useState(300);
     const [xPos, setX] = useState(0);
@@ -87,7 +87,7 @@ export default function Garden(props) {
 
     return (
         <View style={styles.outerShell}>
-            <Header />
+            <Header navigation={navigation}/>
             <Back navigation={props.navigation} onBack={saveGarden} />
             <Grid style={styles.container}>
                 <Text style={styles.gardenTitle}>{name + ": " + Math.round(width / 48) + "\' x " + Math.round(height / 48) + "\'"}</Text>
