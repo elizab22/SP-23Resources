@@ -1,15 +1,37 @@
 import { Text } from 'react-native';
-import { useFonts } from 'expo-font';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+import * as React from 'react';
 
-const Title = () => {
-  const [loaded] = useFonts({
-    OrbitronRegular: require('../assets/fonts/Orbitron-Regular.ttf'),
-  });
 
-  if (!loaded) {
-    return null;
+export default class Title extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        fontsLoaded: false
+    }
   }
-  return <Text style={{fontFamily: 'Orbitron-Regular', fontSize: 32}}>PLANIT</Text>;
-};
 
-export default Title;
+  componentDidMount() {
+    this.loadFonts()
+  }
+
+  async loadFonts() {
+    await Font.loadAsync({
+      'BodoniModa_28pt-Regular': require('../assets/fonts/BodoniModa_28pt-Regular.ttf'),
+    });
+    this.setState({ fontsLoaded: true });
+  }
+
+  
+
+  render() {
+    if (this.state.fontsLoaded) {
+      return (
+          <Text style={{ fontFamily: 'BodoniModa_28pt-Regular', fontSize: 40}}>PLANIT</Text>
+      );
+    } else {
+      return null;
+    }
+  }
+};

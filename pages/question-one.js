@@ -13,7 +13,7 @@ export default function FirstPrompt({navigation}) {
         />
         <TouchableOpacity 
           style={styles.buttonOne} 
-          onPress={() => navigation.navigate("AddPlants")}>
+          onPress={() => navigation.navigate("Plants")}>
           <Text style={styles.buttonOneText}>Yes</Text>
         </TouchableOpacity>
         <TouchableOpacity 

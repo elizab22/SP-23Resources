@@ -6,10 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './pages/login';
 import Landing from './pages/landing';
 import Garden from './pages/garden';
-import Recommender from './pages/recommender';
-import Search from './pages/search';
 import FirstPrompt from './pages/question-one';
-import Location from './pages/location';
 import Plants from './pages/plants';
 
 const Stack = createNativeStackNavigator();
@@ -35,24 +32,12 @@ export default function App() {
           component={FirstPrompt}
         />
         <Stack.Screen
-          name="Location"
-          component={Location}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-        />
-        <Stack.Screen
           name="Garden"
           component={Garden}
         />
         <Stack.Screen
-          name="AddPlants"
+          name="Plants"
           component={Plants}
-        />
-        <Stack.Screen
-          name="Recommender"
-          component={Recommender}
         />
       </Stack.Navigator>
     </NavigationContainer>

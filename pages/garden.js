@@ -57,13 +57,13 @@ import { View, Text, TouchableOpacity, StyleSheet,
   const styles = StyleSheet.create({
     container: {
       backgroundColor: "#fff",
+      alignItems: 'center',
       flex: 1,
     },
     
     gardens: {
       paddingTop: 30,
       flex: 1,
-      alignItems: 'center',
     },
   
     garden: {
@@ -99,7 +99,7 @@ import { View, Text, TouchableOpacity, StyleSheet,
   
     add: {
       margin: 20,
-      alignItems: 'flex-end',
+      alignSelf: 'flex-end',
       bottom: 5,
     }
   })

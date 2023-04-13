@@ -1,5 +1,7 @@
-import { SafeAreaView, View, Image, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
+import { SafeAreaView, View, Image, TouchableOpacity, 
+  Text, StyleSheet, ImageBackground } from 'react-native';
 import Title from './title';
+
 
 export default function Landing ({navigation}) {
   return (
@@ -9,7 +11,7 @@ export default function Landing ({navigation}) {
         source={require('../assets/images/plantbackground.png')}
         resizeMode="cover"
        >
-       <Title/>
+      <Title/>
       <Text style={styles.action}>Let's build your garden</Text>
       <TouchableOpacity 
       style={styles.start} 
