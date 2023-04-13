@@ -43,13 +43,6 @@ import { getUserGardens } from '../src/database';
           <Separator/>
         </View>
         <ScrollView contentContainerStyle={styles.gardens}>
-          {/* <TouchableOpacity style={styles.garden}>
-            <TouchableOpacity style={styles.topHalf}>
-            </TouchableOpacity>
-            <View style={styles.bottom}>
-              <Text>New Garden</Text>
-            </View>
-          </TouchableOpacity> */}
           {total}
         </ScrollView>
         <TouchableOpacity style={styles.add} onPress={() => navigation.navigate("Location")}>

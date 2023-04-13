@@ -19,6 +19,7 @@ import Slider from "@react-native-community/slider";
 import { Dimensions } from "react-native";
 import { savePlantsToGarden } from "../../src/database";
 import { getGarden } from "../../src/database";
+import { getPlant } from "../../src/api-calls";
 
 export default function Garden(props) {
     const [width, setWidth] = useState(300);
@@ -31,11 +32,7 @@ export default function Garden(props) {
     const gardenRef = useRef(null);
 
 
-    const [images, setImages] = useState([["https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tagetes_erecta_chendumalli_chedi.jpg/1200px-Tagetes_erecta_chendumalli_chedi.jpg"],
-    ["https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/pink%20lilies-Anastasios71-SS.jpeg?itok=mmh-o8yf"]]);
-
-
-    
+    const [images, setImages] = useState([]);
 
     useEffect(() => {
         const tempFunc = async () => {
@@ -44,6 +41,12 @@ export default function Garden(props) {
             setWidth(garden.width * 48);
             setHeight(garden.length * 48);
             setGardenData(garden);
+            let tempImages = []
+            for (const plant of garden.plants) {
+                const image = (await getPlant(plant.plant_id, 0)).Image
+                tempImages.push(image)
+            }
+            setImages(tempImages);
         }
         tempFunc();
     }, [])
@@ -124,7 +127,7 @@ export default function Garden(props) {
                     ></Slider>
                 </View>
                 <Row size={2}>
-                    <PlantInventory gardenData={gardenData} updatePlants={updatePlants} images={images} gardenWidth={width} gardenHeight={height} isInGarden={isInGarden}></PlantInventory>
+                    <PlantInventory navigation={props.navigation} gardenData={gardenData} updatePlants={updatePlants} images={images} gardenWidth={width} gardenHeight={height} isInGarden={isInGarden}></PlantInventory>
                 </Row>
             </Grid>
         </View>

@@ -18,23 +18,25 @@ export default function PlantInventory(props) {
             <View style={styles.emptyImage}></View>
     </Col>
 
+    const addPlantsButton = <Col>
+        <TouchableOpacity style={styles.emptyImage} onPress={() => props.navigation.navigate("AddPlants", {gardenId: props.gardenData.id})}>
+            <Image style={styles.addButton} source={require("../assets/add.png")}></Image>
+        </TouchableOpacity>
+    </Col>
+
     const createRow = (start, end) => {
         let row = []
         let count = 0;
         for (let i = start; i < end; i++) {
-            if (props.images[i]) {
-                for (let a = 0; a < props.images[i].length; a++) {
-                    if (props.gardenData.plants && props.gardenData.plants[i]) {
-                        row.push(props.images[i][a] ? <Col><PlantIcon gardenData={props.gardenData} oldX={props.gardenData.plants[i].x_value} oldY={props.gardenData.plants[i].y_value} size={"medium"} updatePlants={props.updatePlants} id={count} gardenHeight={props.gardenHeight} gardenWidth={props.gardenWidth} url={props.images[i][a]} key={count} isInGarden={props.isInGarden} /></Col> : emptyCell);
-                    } else { 
-                        row.push(props.images[i][a] ? <Col><PlantIcon gardenData={props.gardenData} oldX={0} oldY={0} size={"medium"} updatePlants={props.updatePlants} id={count} gardenHeight={props.gardenHeight} gardenWidth={props.gardenWidth} url={props.images[i][a]} key={count} isInGarden={props.isInGarden} /></Col> : emptyCell);
-                    }
-                    count++;
+                if (props.gardenData.plants && props.gardenData.plants[i]) {
+                    row.push(props.images[i] ? <Col><PlantIcon gardenData={props.gardenData} oldX={props.gardenData.plants[i].x_value} oldY={props.gardenData.plants[i].y_value} size={"medium"} updatePlants={props.updatePlants} id={props.gardenData.plants[i].plant_id} gardenHeight={props.gardenHeight} gardenWidth={props.gardenWidth} url={props.images[i]} key={count} isInGarden={props.isInGarden} /></Col> : emptyCell);
+                } else if (i > 0 && props.images[i-1] && !props.images[i]) { 
+                    row.push(addPlantsButton);
+                } else {
+                    row.push(props.images[i] ? <Col><PlantIcon gardenData={props.gardenData} oldX={0} oldY={0} size={"medium"} updatePlants={props.updatePlants} id={count} gardenHeight={props.gardenHeight} gardenWidth={props.gardenWidth} url={props.images[i]} key={count} isInGarden={props.isInGarden} /></Col> : emptyCell);
                 }
-            } else {
-                row.push(emptyCell);
-            }
-        }
+                count++;
+            } 
         return row
     }
 
@@ -74,5 +76,11 @@ const styles = EStyleSheet.create({
         backgroundColor: "white"
         // borderWidth: ".1rem",
         // borderColor: "white"
+    },
+
+    addButton: {
+        width: 55, 
+        height: 55,
+        borderRadius: 27,
     }
 });

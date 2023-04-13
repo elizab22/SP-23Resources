@@ -19,7 +19,11 @@ const register = async (email, password, imageAssets) => {
     // create user and update users collection with the new user
     let url = ""
     if (imageAssets) {
-        url = await uploadImage(imageAssets[0].uri, email);
+        try {
+            url = await uploadImage(imageAssets[0].uri, email);
+        } catch {
+            alert("ERROR")
+        }
     }
     await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredentials => {

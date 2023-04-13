@@ -6,6 +6,7 @@ const init = async () => {
 
 const getPlant = async (id, region) => {
     const results = await fetch(`http://127.0.0.1:5001/get-plant?id=${id}&region=${region}`)
+    
     return await results.json();
 }
 

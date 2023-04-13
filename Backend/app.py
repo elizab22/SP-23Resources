@@ -27,7 +27,7 @@ def search():
 def get_plant():
     plant_id = request.args.get("id")
     region = request.args.get("region")
-    return (df_list_per_region[int(region)]).iloc[int(plant_id)].to_dict()
+    return jsonify((df_list_per_region[int(region)]).iloc[int(plant_id)].to_dict())
 
 @app.route("/init")
 def init_df():

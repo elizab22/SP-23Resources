@@ -13,8 +13,8 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function Location({ navigation }) {
     const [name, setName] = useState("");
-    const [width, setWidth] = useState("");
-    const [length, setLength] = useState("");
+    const [width, setWidth] = useState(0);
+    const [length, setLength] = useState(0);
     const [imageAssets, setImageAssets] = useState(null);
 
     const onSubmit = () => {
