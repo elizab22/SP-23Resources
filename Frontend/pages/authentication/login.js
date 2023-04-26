@@ -4,16 +4,16 @@ import { useEffect, useState } from 'react';
 
 import { authEventListener, login } from '../../src/authentication.js'
 
-const horizontal = Dimensions.get('window').width;
-const vertical = Dimensions.get('window').height;
-
 export default function Login ({navigation}) { 
 
+  // set an event listener to log the user in and to make them not log in again if they're
+  // already logged in
   useEffect(() => {
     const listener = authEventListener(() => navigation.navigate("Dashboard"))
     return listener;
   }, []);
 
+  // state to keep track of email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 

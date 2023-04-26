@@ -1,23 +1,18 @@
 import { Text, TextInput, StyleSheet, Image, SafeAreaView, View, TouchableOpacity, ImageBackground, Dimensions } from 'react-native';
-import Title from '../components/title';
 import { useEffect, useState } from 'react';
-import Back from "../components/back"
-import { authEventListener, login, register } from '../../src/authentication.js'
+import { authEventListener, register } from '../../src/authentication.js'
 import * as ImagePicker from 'expo-image-picker';
-import { uploadImage } from '../../src/database';
-
-const horizontal = Dimensions.get('window').width;
-const vertical = Dimensions.get('window').height;
 
 export default function Register ({navigation}) { 
 
+  // state to keep track of email, password, and image
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [imageAssets, setImageAssets] = useState(null);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+    // no permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -30,6 +25,7 @@ export default function Register ({navigation}) {
   }
 
 
+  // make sure fields are filled out and passwords match
   const onRegister = async () => {
     if (email === "" || password === "" || confirmPassword === "") {
         alert("Please fill out all fields");
@@ -41,6 +37,8 @@ export default function Register ({navigation}) {
     await register(email, password, imageAssets);
   }
 
+  // when user logs in and take them to their dashboard or if they are already logged in
+  // skip this page and go to dashboard
   useEffect(() => {
     const listener = authEventListener(() => navigation.navigate("Dashboard"));
     return listener;

@@ -3,7 +3,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import re
 
-
+# clean height data up and remove filler text like "ft"
 def height_range(height_info):
     in_feet = ("ft" in height_info)
     temp = re.findall(r'\d+', height_info)
@@ -19,6 +19,7 @@ def height_range(height_info):
     else:
         return [temp[0], temp[-1]]
 
+# turn text based range (low, medium, high) into a numerical range (0, 1, 2) for ease of use
 def index_range(index_info):
     if "High" in index_info:
         return 2
@@ -29,6 +30,7 @@ def index_range(index_info):
     else:
         return 1
 
+# remove plants that don't have complete data
 def numerize_data(name):
     df = pd.read_csv(name)
     df = df.drop('Habit or Use', axis = 1)
@@ -77,7 +79,7 @@ def numerize_data(name):
     
     
     
-
+# clean data and save cleaned / filtered data
 df = numerize_data('plants.csv')
 df.to_csv('plants_filtered.csv', index = False)
 df['Type'] = set(df['Type'])

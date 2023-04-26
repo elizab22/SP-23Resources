@@ -6,9 +6,11 @@ import random
 global region
 
 
+# filter plants by region
 def filter_region(region):
     return df.loc[df['Region'] == region]
 
+# make maps for all plant data to allow easy useage
 def make_dicts(df):
     dict_list = []
     for filter in ['Sun Exposure', 'Color', 'Blooming Period', 'Fruit Characteristics', 'Type', 'Size']:
@@ -32,6 +34,7 @@ def make_dicts(df):
         dict_list.append(temp_dict)
     return dict_list
 
+# make maps for all plant data, specifically for use in the ML model
 def make_dicts_ml(df):
     dict_list = []
     for filter in ['Sun Exposure', 'Color', 'Blooming Period', 'Fruit Characteristics', 'Type', 'Size']:
@@ -54,6 +57,8 @@ def make_dicts_ml(df):
         dict_list.append(temp_dict)
     return dict_list
 
+# take in parameter list and based on assigned weights, figure out the best plants to recommend
+# to the user that fits all or most of their criteria
 def get_scores(spec_arr, df, dict_list):
     df_copy = df.copy()
     df_copy['Score'] = 0
@@ -72,6 +77,7 @@ def get_scores(spec_arr, df, dict_list):
     df_copy['Percent Match'] = df_copy['Score'] / max_score * 100
     return df_copy
 
+# make trainig data for ML model
 def construct_data(df):
     label_set = ["Pam's Pink American Honeysuckle", 'Verbena', "Giant Turk's Cap", 'Chenille Plant']
     region = 0
@@ -134,6 +140,7 @@ def construct_data(df):
         
 df = pd.read_csv("pants_filtered.csv")
 
+# initialize variables needed to quickly index and search plants
 def init():
 
     dict_list_per_region = []
@@ -145,18 +152,6 @@ def init():
         dict_list_per_region.append(dict_list)
         df_list_per_region.append(temp_df)
     
-    # region_dict = dict_list_per_region[0]
-    # region_df = df_list_per_region[0]
     return dict_list_per_region, df_list_per_region
-
-
-# ['Sun Exposure', 'Color', 'Blooming Period', 'Fruit Characteristics', 'Type', 'Size']
-# score = get_scores(['partial sun', 'pink', 'spring', 'false', 'perennial', 'small' ], region_df, region_dict)
-# score.sort_values('Score', inplace = True, ascending = False)
-
-# print(score.head(5))
-
-
-# construct_data(df)
 
 

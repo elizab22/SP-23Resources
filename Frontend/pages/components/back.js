@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 
 export default Back = ({navigation, onBack}) => {
 
+  // run optional function before navigating back
   const onClickHandler = () => {
       if (onBack) {
         onBack();

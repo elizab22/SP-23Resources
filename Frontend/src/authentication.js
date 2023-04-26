@@ -2,8 +2,8 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEm
     signInWithEmailAndPassword, signOut, updateEmail } from "firebase/auth";
 import { auth, firestore, storage } from "./firebase-config";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { ref } from "firebase/storage";
-import { uploadImage } from "./database";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 // user is an object with user info and userRef is a DocumentReference to the user object
 let user;
@@ -19,7 +19,7 @@ const register = async (email, password, imageAssets) => {
     // create user and update users collection with the new user
     let url = ""
     if (imageAssets) {
-        url = await uploadImage(imageAssets[0].uri, email);
+        url = await uploadProfileImage(imageAssets[0].uri, email);
     }
     await createUserWithEmailAndPassword(auth, email, password)
         .then(userCredentials => {
@@ -115,6 +115,16 @@ const logout = async () => {
  */
 const changeEmail = async (newEmail) => {
     await updateEmail(user, newEmail)
+}
+
+const uploadProfileImage = async (filePath, email) => {
+    const response = await fetch(filePath);
+    const blobFile = await response.blob();
+
+    const reference = ref(storage, "profiles/" + email);
+    const result = await uploadBytes(reference, blobFile)
+    const url = await getDownloadURL(result.ref)
+    return url;
 }
 
 export { register, login, authEventListener, changePassword, logout, changeEmail, user, userRef, profilePic}

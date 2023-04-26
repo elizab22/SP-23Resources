@@ -2,6 +2,7 @@ import { SafeAreaView, View, Image, TouchableOpacity, Text, StyleSheet, ImageBac
 import Title from './components/title';
 const background = {uri: './plantbackground.png'}
 
+// landing page that user is navigated to when opening the app
 export default function Landing ({navigation}) {
   return (
     <View style={styles.container}>

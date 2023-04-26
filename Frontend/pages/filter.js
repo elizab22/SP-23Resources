@@ -6,6 +6,7 @@ import { View, StyleSheet, TouchableOpacity, Text, FlatList,
     const horizontal = Dimensions.get('window').width;
     const vertical = Dimensions.get('window').height;
     
+    // static array of filters to display
     const FILTERS = [
       {
         title: 'Type',
@@ -40,22 +41,46 @@ import { View, StyleSheet, TouchableOpacity, Text, FlatList,
       empty.push(inner)
     }
 
-    export default function Filter () {
+    export default function Filter (props) {
+
+      // take in boolean array of filter from input and format it into a filter dictionary
+      // that is passed into the api that performs search
+      const processFilter = () => {
+        const params = ["type", "size", "color", "season", "sun_expo", "fruit"]
+        let updatedFilter = {}
+        for (let r = 0; r < check.length; r++) {
+          for (let c = 0; c < check[r].length; c++) {
+            if (check[r][c]) {
+              updatedFilter = {
+                ...updatedFilter, 
+                [params[r]]: FILTERS[r].data[c].toLowerCase()
+              }
+            }
+          }
+        }
+        return updatedFilter;
+      }
+
       const [modalVisible, setModalVisible] = useState(false);
       const [check, setCheck] = useState(JSON.parse(JSON.stringify(empty)))
     
+      // update boolean array of filters
       const toggleCheck = (section, index) => {
         let changed = [...check]
         changed[FILTERS.indexOf(section)][index] = !changed[FILTERS.indexOf(section)][index]
         setCheck(changed)
       }
 
+      // save filter changes and update search filter
       const saveChanges = () => {
+        props.onFilterChange(processFilter());
         setModalVisible(false)
       }
 
+      // discard filter changes and reset filter
       const discardChanges = () => {
         setCheck(JSON.parse(JSON.stringify(empty)))
+        props.onFilterChange({});
         setModalVisible(false)
       }
     

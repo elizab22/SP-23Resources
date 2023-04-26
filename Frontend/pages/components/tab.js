@@ -4,7 +4,10 @@ import React, { useState } from 'react';
 
 const horizontal = Dimensions.get('window').width;
 
+// the side modal from the header
 export default function Tab({navigation, username, visibility, close}) {
+
+  const [modalVisible, setModalVisible] = useState(false);
   return ( 
     <GestureRecognizer
       onSwipeLeft={() => close()}
@@ -18,9 +21,9 @@ export default function Tab({navigation, username, visibility, close}) {
       >
         <View style={{alignItems: 'left', flex: 1}}>
           <View style={styles.container}>
-              <TouchableOpacity style={styles.component}>
+              <TouchableOpacity style={{...styles.component, marginLeft: -15}}>
                 <Image source={require('../../../assets/images/profile-icon.png')}/>
-                  <Text style={styles.text}>{username}</Text>
+                  <Text style={styles.text}>My Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={styles.component}
@@ -35,9 +38,9 @@ export default function Tab({navigation, username, visibility, close}) {
                 <Image source={require('../../../assets/images/search.png')}/>
                 <Text style={styles.text}>Search</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.component}>
-                <Image source={require('../../../assets/images/bookmark.png')}/>
-                <Text style={styles.text}>Saved</Text>
+              <TouchableOpacity style={{...styles.component, marginLeft: 5}}>
+                <Image style={{width: 27, height: 43}} source={require('../../../assets/images/blackBookmark.png')}/>
+                <Text style={{...styles.text, marginLeft: 10}}>Saved</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.component}>
                 <Image source={require('../../../assets/images/logout.png')}/>
@@ -46,6 +49,7 @@ export default function Tab({navigation, username, visibility, close}) {
             </View>
           </View>
       </Modal>
+      
     </GestureRecognizer>
   );
 }
@@ -56,11 +60,11 @@ const styles=StyleSheet.create({
     padding: 20,
     width: horizontal * 0.6,
     backgroundColor: '#BED0BC',
+    alignItems: 'left',
   },
   
   component: {
     flexDirection: 'row',
-    margin: 10,
     marginTop: 15,
     marginBottom: 15,
   },

@@ -19,24 +19,26 @@ import Slider from "@react-native-community/slider";
 import { Dimensions } from "react-native";
 import { savePlantsToGarden } from "../../src/database";
 import { getGarden } from "../../src/database";
+import { getPlant } from "../../src/api-calls";
 
 export default function Garden(props) {
+
+    // state variables to keep track of width / height
     const [width, setWidth] = useState(300);
     const [height, setHeight] = useState(300);
+
+    // top left corner x and y pos
     const [xPos, setX] = useState(0);
     const [yPos, setY] = useState(0);
+
+    // other necessary state variables
     const [plants, setPlants] = useState({});
     const [name, setName] = useState("");
     const [gardenData, setGardenData] = useState({});
     const gardenRef = useRef(null);
+    const [images, setImages] = useState([]);
 
-
-    const [images, setImages] = useState([["https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Tagetes_erecta_chendumalli_chedi.jpg/1200px-Tagetes_erecta_chendumalli_chedi.jpg"],
-    ["https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/pink%20lilies-Anastasios71-SS.jpeg?itok=mmh-o8yf"]]);
-
-
-    
-
+    // load garden and plant data and update state
     useEffect(() => {
         const tempFunc = async () => {
             const garden = await getGarden(props.route.params.id)
@@ -44,11 +46,19 @@ export default function Garden(props) {
             setWidth(garden.width * 48);
             setHeight(garden.length * 48);
             setGardenData(garden);
+            let tempImages = []
+            for (const plant of garden.plants) {
+                const image = (await getPlant(plant.plant_id, 0)).Image
+                tempImages.push(image)
+            }
+            setImages(tempImages);
         }
         tempFunc();
     }, [])
 
 
+    // check if x and y position is currently in garden
+    // used to see if a dragged plant is in bounds
     const isInGarden = (x, y) => {
         if (
             x > xPos &&
@@ -61,6 +71,7 @@ export default function Garden(props) {
         return false;
     };
 
+    // callback to update global x and y position of gardne
     const measureGarden = () => {
         gardenRef.current.measure((x, y, width, height, pageX, pageY) => {
             setX(pageX);
@@ -68,12 +79,14 @@ export default function Garden(props) {
         });
     };
     
+    // update plant positions in database
     const saveGarden = () => {
         const widthFt = Math.round(width / 48)
         const heightFt = Math.round(height / 48)
         savePlantsToGarden(props.route.params.id, plants, widthFt, heightFt);
     }
 
+    // keep track of where the dragged plants are on the garden so that they can be saved
     const updatePlants = (id, x, y, inGarden) => {
         setPlants(old => {
             if (inGarden) {
@@ -124,7 +137,7 @@ export default function Garden(props) {
                     ></Slider>
                 </View>
                 <Row size={2}>
-                    <PlantInventory gardenData={gardenData} updatePlants={updatePlants} images={images} gardenWidth={width} gardenHeight={height} isInGarden={isInGarden}></PlantInventory>
+                    <PlantInventory navigation={props.navigation} gardenData={gardenData} updatePlants={updatePlants} images={images} gardenWidth={width} gardenHeight={height} isInGarden={isInGarden}></PlantInventory>
                 </Row>
             </Grid>
         </View>

@@ -9,14 +9,19 @@ import {
 import Header from "../components/header";
 import Back from "../components/back";
 import { useState } from "react";
+import { createGarden } from "../../src/database";
 import * as ImagePicker from "expo-image-picker";
 
 export default function NewGarden({ navigation }) {
+
+    // state variables for garden information
     const [name, setName] = useState("");
     const [width, setWidth] = useState("");
     const [length, setLength] = useState("");
     const [imageAssets, setImageAssets] = useState(null);
 
+    // check validity of input
+    // if valid input, then create garden and navigate back to dashboard
     const onSubmit = () => {
         if (
             name != "" &&
@@ -25,12 +30,8 @@ export default function NewGarden({ navigation }) {
             !isNaN(width) &&
             !isNaN(length)
         ) {
-            navigation.navigate("Garden", {
-                width: parseInt(width),
-                length: parseInt(length),
-                name: name,
-                imageAssets: imageAssets,
-            });
+            createGarden(name, true, parseInt(length), parseInt(width), 0, imageAssets)
+            navigation.navigate("Dashboard")
         } else {
             alert("Please fill out all fields correctly");
         }

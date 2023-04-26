@@ -7,13 +7,19 @@ import { Easing } from "react-native-reanimated";
 
 export default function PlantIcon(props) {
 
+    // state variables keeping track of plant icon position and if it's in the garden
     const [inGarden, setInGarden] = useState(false);
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
+
+    // kept track of so that this component updates when the garden updates
     const [width, setWidth] = useState(55);
     const [height, setHeight] = useState(55);
+
+    // used to make plant a square in the garden and circle in inventory area
     const [borderRadius, setBorderRadius] = useState(27);
 
+    // change plant icon size based on its type
     const updateSize = () => {
         if (pan.x._value != 0 || pan.y._value != 0) {
             if (props.size === "large") {
@@ -28,7 +34,10 @@ export default function PlantIcon(props) {
         }
     }
 
+    // variable that keeps track of position of plant for animating
     const pan = useRef(new Animated.ValueXY()).current;
+
+    // revert plant to its starting spot if it leaves the garden
     if (inGarden && !props.isInGarden(x, y)) {
         setInGarden(false);
         setWidth(55);
@@ -37,6 +46,7 @@ export default function PlantIcon(props) {
         Animated.spring(pan, {toValue:{x:0,y:0}, useNativeDriver: false },  ).start(); 
     } 
 
+    // create dragging animation functionality
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder : () => true,
         onPanResponderMove           : Animated.event([null,{ 
@@ -44,12 +54,18 @@ export default function PlantIcon(props) {
             dy : pan.y
         }], {useNativeDriver: false}),
         onPanResponderRelease        : (e, gesture) => {
+
+            // update x and y pos
             setX(gesture.moveX);
             setY(gesture.moveY);
+
+            // if plant is dragged into the garden, make it stay and update necessary info
             if (props.isInGarden(gesture.moveX, gesture.moveY)) {
                 setInGarden(true);
                 updateSize();
                 props.updatePlants(props.id, pan.x._value, pan.y._value, true);
+
+            // otherwise, put plant back to where it started in the inventory
             } else {
                 setWidth(55);
                 setHeight(55);
@@ -60,6 +76,8 @@ export default function PlantIcon(props) {
         } 
     })
 
+    // check if there are previously saved plants in the garden when loading from database, and
+    // if so, put them in the garden where they used to be
     useEffect(
         () => {
             setTimeout(() => {                    
@@ -73,7 +91,6 @@ export default function PlantIcon(props) {
             }, 100)
         }, []
     )
-
 
     return <Animated.View style={[pan.getLayout(), styles.container]} 
             {...panResponder.panHandlers}>

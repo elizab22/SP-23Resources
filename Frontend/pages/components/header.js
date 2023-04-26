@@ -10,8 +10,8 @@ import Menu from './menu';
 const horizontal = Dimensions.get('window').width;
 
 const Header = ({navigation}) => {
-  const [modalVisible, setModalVisible] = useState(false);
 
+  // set profile picture of user after loading it from database
   useEffect(() => {
     const tempFunc = async () => {
       const profilePic = await (await getDoc(userRef)).data().profilePic
@@ -26,6 +26,7 @@ const Header = ({navigation}) => {
     }
   }, [])
 
+  // state for user profile pic
   const [profilePic, setProfilePic] = useState()
 
   return (

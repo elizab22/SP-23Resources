@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet,
   import React, { useEffect, useState } from 'react';
   import Header from './components/header';
   import Separator from './components/separator'
-import { getUserGardens } from '../src/database';
+import { getUserGardens, getUserGardensListener } from '../src/database';
   
   const horizontal = Dimensions.get('window').width;
   
@@ -11,15 +11,17 @@ import { getUserGardens } from '../src/database';
   export default function Dashboard({ navigation }) {
     const [gardens, setGardens] = useState([]);
 
+    // create listener to update dashboard when new gardens are created
     useEffect(() => {
         const tempFunc = async () => {
           const tempGardens = await getUserGardens()
           setGardens(tempGardens);
         }
-        tempFunc();
+        const unsub = getUserGardensListener(() => tempFunc());
     }, [])
   
   
+    // create list of garden elements to show in dashboard
     var total = [];
     for (let i = 0; i < gardens.length; i++) {
       total.push(
@@ -27,6 +29,7 @@ import { getUserGardens } from '../src/database';
             <TouchableOpacity style={styles.topHalf} onPress={() => {
               navigation.navigate("Garden", {"id": gardens[i].id})
             }}>
+              {gardens[i].picture ? <Image style={styles.topHalf} src={gardens[i].picture}></Image> : <View></View>}
             </TouchableOpacity>
             <View style={styles.bottom}>
               <Text>{gardens[i].name}</Text>
@@ -63,14 +66,12 @@ import { getUserGardens } from '../src/database';
     
     gardens: {
       paddingTop: 30,
-      flex: 1,
       alignItems: 'center',
     },
   
     garden: {
       width: horizontal * .8,
       height: 200,
-      flex: 1,
     },
   
     topHalf: {

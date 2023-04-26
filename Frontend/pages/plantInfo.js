@@ -4,7 +4,26 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
     const horizontal = Dimensions.get('window').width;
     const vertical = Dimensions.get('window').height;
     
-    export default function ShowModal ({prop, modalVisible, close}) {
+
+    // modal that shows information about plant when clicked on it in search screen
+    export default function ShowModal ({prop, modalVisible, close, addPlant}) {
+
+      // create sun requirement text
+      let sunReqEmojis = "☀️☀️"
+      if (prop.sunExpo == 'partial sun') {
+        sunReqEmojis = "☀️☁️"
+      } else if (prop.sunExpo == 'shade') {
+        sunReqEmojis = "☁️☁️"
+      }
+
+      // create water emoji requirement text
+      let waterEmoji = "💧"
+      let waterReq = waterEmoji;
+      let num = parseInt(prop.waterReq)
+      for (let i = 0; i < num + 1; i++) {
+        waterReq += waterEmoji;
+      }
+
       return (
         <Modal
                   animationType="slide"
@@ -20,11 +39,11 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
                         onPress={() => close()}>
                         <Text style={styles.close}>X</Text>
                       </Pressable>
-                    <ImageBackground 
-                      source={prop.image}
+                    <Image
+                      src={prop.image}
                       style={styles.plantImage}
                       resizeMode='cover'>
-                      </ImageBackground>
+                      </Image>
                       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View>
                           <Text 
@@ -35,6 +54,18 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
                             style={styles.scientificName}>
                             {prop.scientificName}
                           </Text>
+                          <View style={styles.attrView}>
+                          <Text>
+                            Sun: {sunReqEmojis}  
+                          </Text>
+                          <Text>
+                               {"        "}
+                          </Text>
+                          <Text>
+                               Water: {waterReq}
+                          </Text>
+                          </View>
+              
                         </View>
                         <View>
                           <Image source={require("../../assets/images/like.png")}/>
@@ -44,7 +75,10 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
                         </View>
                       </View>
                       <View style={styles.middleSection}>
-                        <TouchableOpacity style={styles.buttonOne}>
+                        <TouchableOpacity style={styles.buttonOne} onPress={() => {
+                            addPlant(prop)
+                            close()
+                          }}>
                           <Text style={{fontSize: 20, color: '#fff'}}>
                             Add to garden
                           </Text>
@@ -76,6 +110,8 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
       plantImage: {
         height: 300,
         marginBottom: 10,
+        marginTop: 10,
+        borderRadius: 10
       },
     
      centeredView: {
@@ -100,6 +136,11 @@ import { Modal, Text, View, Image, Pressable, StyleSheet, Dimensions,
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
+      },
+
+      attrView: {
+        flexDirection: 'row',
+        marginTop: 10
       },
     
       buttonOne: {

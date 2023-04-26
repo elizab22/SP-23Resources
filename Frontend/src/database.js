@@ -1,4 +1,4 @@
-import { doc, addDoc, updateDoc, arrayUnion, collection, deleteDoc, arrayRemove, getDoc } from "firebase/firestore";
+import { doc, addDoc, updateDoc, arrayUnion, collection, deleteDoc, arrayRemove, getDoc, onSnapshot } from "firebase/firestore";
 import { userRef, user } from "./authentication";
 import { firestore } from "./firebase-config";
 import { storage } from "./firebase-config";
@@ -16,9 +16,6 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 const createGarden = async (name, isIndoor, length, width, region, imageAssets) => {
     // create garden in database
     let url = "";
-    if (imageAssets) {
-        url = await uploadImage(imageAssets[0].uri)
-    }
     const gardenRef = await addDoc(collection(firestore, "gardens"), {
         isIndoor: isIndoor,
         length: length,
@@ -29,6 +26,14 @@ const createGarden = async (name, isIndoor, length, width, region, imageAssets) 
         timestamp: Date.now(),
         picture: url
     })
+
+    if (imageAssets) {
+        url = await uploadGardenImage(imageAssets[0].uri, gardenRef.id);
+        await updateDoc(gardenRef, {
+            picture: url
+        })
+    }
+
 
     // update user's gardens field with the id of newly created garden
     await updateDoc(userRef, {
@@ -88,6 +93,24 @@ const savePlantsToGarden = async (gardenId, plants, width, height) => {
     }
 }
 
+const addPlantsToGarden = async (gardenId, plants) => {
+    const gardenRef = doc(firestore, "gardens", gardenId);
+
+    // save the new plants into the database
+    let plantArr = []
+    for (const [id, value] of Object.entries(plants)) {
+        const plantObj = {
+            plant_id: parseInt(id),
+            x_value: value.x,
+            y_value: value.y
+        }
+        plantArr.push(plantObj)
+    }
+    await updateDoc(gardenRef, {
+        plants: arrayUnion(...plantArr),
+    })
+}
+
 /**
  * Gets and returns an array of all the user's gardens
  * @returns an array of the user's gardens with each item in the array being an object 
@@ -102,6 +125,13 @@ const getUserGardens = async () => {
     return gardens;
 }
 
+const getUserGardensListener = async (onChange) => {
+    const listener = onSnapshot(doc(firestore, "users", userRef.id), (doc) => {
+        onChange()
+    })
+    return listener
+}
+
 /**
  * Gets the data for the garden specified by the gardenId
  * @param {String} gardenId 
@@ -111,14 +141,14 @@ const getGarden = async (gardenId) => {
     return {...(await getDoc(doc(firestore, "gardens", gardenId))).data(), id: gardenId}
 }
 
-const uploadImage = async (filePath, email) => {
+const uploadGardenImage = async (filePath, id) => {
     const response = await fetch(filePath);
     const blobFile = await response.blob();
 
-    const reference = ref(storage, "profiles/" + email);
+    const reference = ref(storage, "gardens/" + id);
     const result = await uploadBytes(reference, blobFile)
     const url = await getDownloadURL(result.ref)
     return url;
 }
 
-export { uploadImage, createGarden, deleteGarden, savePlantsToGarden, getUserGardens, getGarden }
+export { getUserGardensListener, createGarden, deleteGarden, savePlantsToGarden, getUserGardens, getGarden, addPlantsToGarden }

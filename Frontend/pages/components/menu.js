@@ -6,8 +6,12 @@ import {
 import React, { useState } from 'react';
 import Tab from './tab';
 
+
 export default function Menu({navigation}) {
+
+    // keep track of if side modal is visible or not
     const [modalVisible, setModalVisible] = useState(false);
+
     return (
         <TouchableOpacity onPress={() => setModalVisible(true)}>
             <Image
